@@ -16,7 +16,7 @@ export default function App() {
  
    const fetching = async () => {
     try {
-      const response =await fetch('https://troubled-red-garb.cyclic.app/professeurs');
+      const response =await fetch('https://tiny-worm-nightgown.cyclic.app/professeurs');
        const data = await response.json(); 
       setDataP(data);
     } catch (error) {
