@@ -16,7 +16,7 @@ const Footer = () => {
       
         <View style={styles.contactItem}>
           <Icon name="whatsapp" size={20} color="#25D366" />
-          <Text style={styles.contactText}>+212 662477075</Text>
+          <Text style={styles.contactText}>+212 617019117</Text>
         </View>
         <View style={styles.contactItem}>
           <Icon name="envelope" size={20} color="#25D366" />

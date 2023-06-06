@@ -1,12 +1,16 @@
-import React, { useEffect, useState,useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View, StyleSheet, Text, FlatList, TextInput } from 'react-native';
 import DataContext from './DataContext';
+
 const Combinaison = () => {
-  const professors= useContext(DataContext);
+  const professors = useContext(DataContext);
   const [combinations, setCombinations] = useState([]);
   const [searchText, setSearchText] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(()=>{ handleCombination();})
+  useEffect(() => {
+    handleCombination();
+  }, []);
 
   const handleCombination = () => {
     const combinationsData = [];
@@ -29,6 +33,7 @@ const Combinaison = () => {
     });
 
     setCombinations(combinationsData);
+    setIsLoading(false);
   };
 
   const renderCombination = ({ item }) => {
@@ -43,9 +48,9 @@ const Combinaison = () => {
     return (
       <View style={styles.card}>
         <Text style={styles.professorName}>{`${professor.prenom} ${professor.nom}`}</Text>
-        <Text >Télephone:{professor.tel}</Text>
-        <Text >Email:{professor.email}</Text>
-        <Text style={styles.combinationLabel}>Combinaisons possibles :</Text>
+        <Text>Télephone: {professor.tel}</Text>
+        <Text>Email: {professor.email}</Text>
+        <Text style={styles.combinationLabel}>Combinaisons possibles:</Text>
         {filteredCombinations.length > 0 ? (
           <FlatList
             data={filteredCombinations}
@@ -54,7 +59,7 @@ const Combinaison = () => {
             style={styles.combinationsList}
           />
         ) : (
-          <Text style={styles.noCombinationsText}>pas de combinaisons</Text>
+          <Text style={styles.noCombinationsText}>Pas de combinaisons</Text>
         )}
       </View>
     );
@@ -71,13 +76,14 @@ const Combinaison = () => {
     <View style={styles.container}>
       <TextInput
         style={styles.searchInput}
-        placeholder="entrer le nom de professeur"
+        placeholder="Entrer le nom du professeur"
         value={searchText}
         onChangeText={setSearchText}
-        autoFocus={true}
       />
 
-      {combinations && combinations.length > 0 ? (
+      {isLoading ? (
+        <Text style={styles.loadingText}>Loading...</Text>
+      ) : combinations.length > 0 ? (
         <FlatList
           data={combinations}
           renderItem={renderCombination}
@@ -90,7 +96,9 @@ const Combinaison = () => {
     </View>
   );
 };
+
 export default Combinaison;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -109,13 +117,13 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   searchInput: {
-  backgroundColor: '#f2f2f2',
-  padding: 8,
-  marginBottom: 8,
-  borderRadius: 4,
-  borderWidth: 1,
-  outlineColor: 'black',
-},
+    backgroundColor: '#f2f2f2',
+    padding: 8,
+    marginBottom: 8,
+    borderRadius: 4,
+    borderWidth: 1,
+    outlineColor: 'black',
+  },
   combinationLabel: {
     fontSize: 16,
     fontWeight: 'bold',
@@ -130,6 +138,10 @@ const styles = StyleSheet.create({
     marginTop: 8,
     textAlign: 'center',
   },
+  loadingText: {
+    fontSize: 16,
+    marginTop: 8,
+    textAlign: 'center',
+    fontStyle: 'italic',
+  },
 });
-
-
